@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:exhibition_3d/constants/size_constants.dart';
 import 'package:exhibition_3d/state/mouse_postion_builder.dart';
+import 'package:exhibition_3d/widgets/picture.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/line_art.dart';
 import 'widgets/painting_shadow.dart';
 
 class Plane extends StatefulWidget {
@@ -17,8 +19,8 @@ class Plane extends StatefulWidget {
 class _PlaneState extends State<Plane> {
   late double _screenHeight;
   late double _screenWidth;
-  ValueNotifier<double> dx = ValueNotifier<double>(45);
-  ValueNotifier<double> dy = ValueNotifier<double>(-30);
+  ValueNotifier<double> dx = ValueNotifier<double>(55);
+  ValueNotifier<double> dy = ValueNotifier<double>(-50);
 
   @override
   void dispose() {
@@ -29,8 +31,8 @@ class _PlaneState extends State<Plane> {
 
   void _onMouseMove(PointerEvent event) {
     Offset position = event.position;
-    dy.value = ((position.dx / _screenWidth) * 10) - 30;
-    dx.value = 45.0 - 20.0 * (position.dy / _screenHeight);
+    dy.value = ((position.dx / _screenWidth) * 10) - 50;
+    dx.value = 55.0 - 10.0 * (position.dy / _screenHeight);
   }
 
   @override
@@ -53,43 +55,14 @@ class _PlaneState extends State<Plane> {
                 ..rotateZ(
                   -dy.value * pi / 180,
                 ),
-              // ..rotateZ(0.7),
               alignment: Alignment.center,
               child: Stack(
                 children: [
-                  Transform(
-                    transform: Matrix4.identity()..rotateX(90 * pi / 180),
-                    // ..rotateY(20 * pi / 180),
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 180,
-                          height: 200,
-                          decoration: const BoxDecoration(
-                            color: Colors.teal,
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                offset: Offset(10, -8),
-                                color: Colors.black,
-                              ),
-                            ],
-                          ),
-                        ),
-                        verticalSpaceLarge,
-                        SizedBox(
-                          width: 180,
-                          height: 4,
-                          child: CustomPaint(
-                            foregroundPainter: PaintingShadow(
-                              color: Colors.black,
-                              blurSigma: 6,
-                            ),
-                          ),
-                        ),
-                      ],
+                  SizedBox(
+                    width: _screenWidth,
+                    height: _screenHeight,
+                    child: CustomPaint(
+                      painter: LineArt(),
                     ),
                   ),
                   Align(
@@ -99,7 +72,7 @@ class _PlaneState extends State<Plane> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'I 💖 Yoh Yoh',
+                          'The Letter',
                           style: TextStyle(
                             fontSize: 50,
                             fontWeight: FontWeight.w700,
@@ -107,13 +80,50 @@ class _PlaneState extends State<Plane> {
                         ),
                         verticalSpaceMedium,
                         const SizedBox(
-                          width: 300,
-                          child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec iaculis tortor sit amet massa imperdiet luctus. Nulla maximus vulputate nisl in vulputate'),
+                          width: 200,
+                          child: Text("something in the way yeah yeah yeah!!"),
                         ),
                         verticalSpaceSmall,
-                        FilledButton(onPressed: () {}, child: Text('Love ya')),
+                        FilledButton(
+                            onPressed: () {},
+                            child: const Text('Explore Story')),
                       ],
+                    ),
+                  ),
+                  Positioned(
+                    left: _screenWidth * .25,
+                    top: _screenHeight * .3,
+                    child: const Picture(
+                      yDegree: 0,
+                      width: 180,
+                      height: 200,
+                    ),
+                  ),
+                  Positioned(
+                    right: _screenWidth * 0.3,
+                    top: _screenHeight * 0.2,
+                    child: const Picture(
+                      yDegree: 0,
+                      width: 180,
+                      height: 200,
+                    ),
+                  ),
+                  Positioned(
+                    right: _screenWidth * 0.3,
+                    bottom: _screenHeight * .05,
+                    child: const Picture(
+                      yDegree: 0,
+                      width: 160,
+                      height: 130,
+                    ),
+                  ),
+                  Positioned(
+                    left: _screenWidth * 0.4,
+                    bottom: _screenHeight * .05,
+                    child: const Picture(
+                      yDegree: -90,
+                      width: 160,
+                      height: 130,
                     ),
                   ),
                 ],
