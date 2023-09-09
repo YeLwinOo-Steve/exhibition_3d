@@ -19,12 +19,6 @@ class Picture extends StatelessWidget {
   final double height;
   final double thickness;
 
-  final List<Color> gradientColors = const [
-    Color(0xffB9C6F0),
-    Color(0xffEFEDFA),
-    Color(0xffB9C6F0)
-  ];
-
   bool get isPositiveYDegree => yDegree >= .0;
   double convertDegreeToRadian(double radian) => radian * pi / 180;
   @override
@@ -50,10 +44,10 @@ class Picture extends StatelessWidget {
               Container(
                 width: width,
                 height: thickness,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: gradientColors,
-                    stops: const [0.1, 0.9, 1],
+                    stops: [0.1, 0.8, 1],
                     begin: Alignment.bottomLeft,
                     end: Alignment.topLeft,
                   ),
@@ -66,7 +60,7 @@ class Picture extends StatelessWidget {
                 Container(
                   width: thickness,
                   height: height,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: gradientColors,
                       begin: Alignment.topLeft,
@@ -83,7 +77,7 @@ class Picture extends StatelessWidget {
                 Container(
                   width: 10,
                   height: height,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: gradientColors,
                       begin: Alignment.topLeft,

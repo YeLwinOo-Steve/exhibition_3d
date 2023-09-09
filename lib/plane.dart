@@ -62,7 +62,8 @@ class _PlaneState extends State<Plane> {
                     width: _screenWidth,
                     height: _screenHeight,
                     child: CustomPaint(
-                      painter: LineArt(),
+                      size: MediaQuery.sizeOf(context),
+                      foregroundPainter: LineArt(),
                     ),
                   ),
                   Align(
@@ -78,10 +79,10 @@ class _PlaneState extends State<Plane> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        verticalSpaceMedium,
                         const SizedBox(
                           width: 200,
-                          child: Text("something in the way yeah yeah yeah!!"),
+                          child: Text(
+                              "You either die a Hero or suffer long enough to see yourself become a Software Engineer!"),
                         ),
                         verticalSpaceSmall,
                         FilledButton(
