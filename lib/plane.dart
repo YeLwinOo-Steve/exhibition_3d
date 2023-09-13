@@ -1,11 +1,15 @@
 import 'dart:math';
 
+import 'package:exhibition_3d/constants/asset_constants.dart';
+import 'package:exhibition_3d/constants/color_constants.dart';
 import 'package:exhibition_3d/constants/size_constants.dart';
+import 'package:exhibition_3d/constants/value_constants.dart';
 import 'package:exhibition_3d/state/mouse_postion_builder.dart';
 import 'package:exhibition_3d/widgets/picture.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'constants/string_constants.dart';
 import 'widgets/line_art.dart';
 import 'widgets/painting_shadow.dart';
 
@@ -21,12 +25,38 @@ class _PlaneState extends State<Plane> {
   late double _screenWidth;
   ValueNotifier<double> dx = ValueNotifier<double>(55);
   ValueNotifier<double> dy = ValueNotifier<double>(-50);
+  late AssetImage blossomImage;
+  late AssetImage harvestImage;
+  late AssetImage irisesImage;
+  late AssetImage cypressesImage;
+
+  @override
+  void initState() {
+    super.initState();
+    blossomImage = const AssetImage(kaBlossom);
+    harvestImage = const AssetImage(kaHarvest);
+    irisesImage = const AssetImage(kaIrises);
+    cypressesImage = const AssetImage(kaCypresses);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _precacheImages();
+  }
 
   @override
   void dispose() {
     dx.dispose();
     dy.dispose();
     super.dispose();
+  }
+
+  void _precacheImages() {
+    precacheImage(blossomImage, context);
+    precacheImage(harvestImage, context);
+    precacheImage(irisesImage, context);
+    precacheImage(cypressesImage, context);
   }
 
   void _onMouseMove(PointerEvent event) {
@@ -62,69 +92,73 @@ class _PlaneState extends State<Plane> {
                     width: _screenWidth,
                     height: _screenHeight,
                     child: CustomPaint(
-                      size: MediaQuery.sizeOf(context),
-                      foregroundPainter: LineArt(),
+                      foregroundPainter: LineArt(color: lineColor),
                     ),
                   ),
                   Align(
                     alignment: Alignment.center,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'The Letter',
-                          style: TextStyle(
-                            fontSize: 50,
-                            fontWeight: FontWeight.w700,
-                          ),
+                          ksTitle,
+                          style: kTitleTextStyle,
                         ),
-                        const SizedBox(
-                          width: 200,
-                          child: Text(
-                              "You either die a Hero or suffer long enough to see yourself become a Software Engineer!"),
+                        verticalSpaceSmall,
+                        SizedBox(
+                          width: _screenWidth * 0.2,
+                          child: const Text(
+                            ksQuote,
+                            style: kQuoteTextStyle,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                         verticalSpaceSmall,
                         FilledButton(
-                            onPressed: () {},
-                            child: const Text('Explore Story')),
+                          onPressed: () {},
+                          child: const Text(ksExplore),
+                        ),
                       ],
                     ),
                   ),
                   Positioned(
                     left: _screenWidth * .25,
                     top: _screenHeight * .3,
-                    child: const Picture(
+                    child: Picture(
                       yDegree: 0,
                       width: 180,
                       height: 200,
+                      image: blossomImage,
                     ),
                   ),
                   Positioned(
                     right: _screenWidth * 0.3,
                     top: _screenHeight * 0.2,
-                    child: const Picture(
+                    child: Picture(
                       yDegree: 0,
                       width: 180,
                       height: 200,
+                      image: harvestImage,
                     ),
                   ),
                   Positioned(
                     right: _screenWidth * 0.3,
                     bottom: _screenHeight * .05,
-                    child: const Picture(
+                    child: Picture(
                       yDegree: 0,
                       width: 160,
                       height: 130,
+                      image: irisesImage,
                     ),
                   ),
                   Positioned(
                     left: _screenWidth * 0.4,
                     bottom: _screenHeight * .05,
-                    child: const Picture(
+                    child: Picture(
                       yDegree: -90,
                       width: 160,
                       height: 130,
+                      image: cypressesImage,
                     ),
                   ),
                 ],

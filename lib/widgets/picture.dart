@@ -13,11 +13,13 @@ class Picture extends StatelessWidget {
     required this.width,
     required this.height,
     this.thickness = 10.0,
+    required this.image,
   });
   final double yDegree;
   final double width;
   final double height;
   final double thickness;
+  final AssetImage image;
 
   bool get isPositiveYDegree => yDegree >= .0;
   double convertDegreeToRadian(double radian) => radian * pi / 180;
@@ -99,7 +101,12 @@ class Picture extends StatelessWidget {
                   child: Container(
                     width: width - 10,
                     height: height - 10,
-                    color: Colors.amber,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: image,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
               ),
