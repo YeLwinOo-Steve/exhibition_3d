@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:exhibition_3d/constants/color_constants.dart';
 import 'package:exhibition_3d/constants/size_constants.dart';
+import 'package:exhibition_3d/extensions/angle_ex.dart';
 import 'package:flutter/material.dart';
 
 import 'painting_shadow.dart';
@@ -22,13 +23,13 @@ class Picture extends StatelessWidget {
   final AssetImage image;
 
   bool get isPositiveYDegree => yDegree >= .0;
-  double convertDegreeToRadian(double radian) => radian * pi / 180;
+
   @override
   Widget build(BuildContext context) {
     return Transform(
       transform: Matrix4.identity()
-        ..rotateX(convertDegreeToRadian(90))
-        ..rotateY(convertDegreeToRadian(yDegree))
+        ..rotateX(90.0.degToRad)
+        ..rotateY(yDegree.degToRad)
         ..translate(
           .0,
           -80.0,
@@ -54,8 +55,7 @@ class Picture extends StatelessWidget {
                     end: Alignment.topLeft,
                   ),
                 ),
-                transform: Matrix4.identity()
-                  ..rotateX(convertDegreeToRadian(90)),
+                transform: Matrix4.identity()..rotateX(90.0.degToRad),
                 alignment: Alignment.topLeft,
               ),
               if (isPositiveYDegree) ...[
@@ -70,7 +70,7 @@ class Picture extends StatelessWidget {
                     ),
                   ),
                   transform: Matrix4.identity()
-                    ..rotateY(-convertDegreeToRadian(90))
+                    ..rotateY(-90.0.degToRad)
                     ..translate(.0, .0, -10),
                   alignment: Alignment.centerLeft,
                 ),
@@ -87,7 +87,7 @@ class Picture extends StatelessWidget {
                     ),
                   ),
                   transform: Matrix4.identity()
-                    ..rotateY(-convertDegreeToRadian(90))
+                    ..rotateY(-90.0.degToRad)
                     ..translate(.0, .0),
                   alignment: Alignment.topLeft,
                 ),
@@ -96,7 +96,7 @@ class Picture extends StatelessWidget {
                 width: width,
                 height: height,
                 alignment: Alignment.center,
-                color: const Color(0xffB9C6F0),
+                color: lineColor,
                 child: Center(
                   child: Container(
                     width: width - 10,
