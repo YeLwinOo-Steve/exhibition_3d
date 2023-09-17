@@ -25,10 +25,14 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
   late double _screenHeight;
   late double _screenWidth;
   late AnimationController animationController;
+  late Animation<double> planeYAnimation;
   Story? story;
 
+  double dxVal = 55;
+  double dyVal = -50;
+
   ValueNotifier<double> dx = ValueNotifier<double>(55);
-  ValueNotifier<double> dy = ValueNotifier<double>(-50);
+  ValueNotifier<double> dz = ValueNotifier<double>(-50);
   late AssetImage blossomImage;
   late AssetImage harvestImage;
   late AssetImage irisesImage;
@@ -43,7 +47,18 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
     cypressesImage = const AssetImage(kaCypresses);
     animationController = AnimationController(
         vsync: this, duration: const Duration(microseconds: 1000));
+    planeYAnimation = Tween<double>(begin: dyVal, end: .0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
+
+  bool get isYAnimationCompleted =>
+      animationController.status == AnimationStatus.completed;
+  bool get isYAnimationDismissed =>
+      animationController.status == AnimationStatus.dismissed;
 
   @override
   void didChangeDependencies() {
@@ -54,7 +69,8 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     dx.dispose();
-    dy.dispose();
+    dz.dispose();
+    animationController.dispose();
     super.dispose();
   }
 
@@ -67,7 +83,7 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
 
   void _onMouseMove(PointerEvent event) {
     Offset position = event.position;
-    dy.value = ((position.dx / _screenWidth) * 10) - 50;
+    dz.value = ((position.dx / _screenWidth) * 10) - 50;
     dx.value = 55.0 - 10.0 * (position.dy / _screenHeight);
   }
 
@@ -80,18 +96,18 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
         children: [
           MousePositionBuilder<double, double>(
             x: dx,
-            y: dy,
+            y: dz,
             builder: (context, x, y) {
               return MouseRegion(
-                onHover: _onMouseMove,
+                onHover: isYAnimationDismissed ? _onMouseMove : null,
                 child: Transform(
                   transform: Matrix4.identity()
                     ..setEntry(3, 2, .001)
                     ..rotateX(
-                      -dx.value * pi / 180,
+                      - dx.value * pi / 180,
                     )
                     ..rotateZ(
-                      -dy.value * pi / 180,
+                      -dz.value * pi / 180,
                     ),
                   alignment: Alignment.center,
                   child: Stack(
@@ -123,7 +139,7 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
                             ),
                             verticalSpaceSmall,
                             FilledButton(
-                              onPressed: () {},
+                              onPressed: toggleStory,
                               child: const Text(ksExplore),
                             ),
                           ],
@@ -138,7 +154,7 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
                           width: 180,
                           height: 200,
                           image: blossomImage,
-                          onPictureHover: _selectStory,
+                          // onPictureHover: _selectStory,
                         ),
                       ),
                       Positioned(
@@ -150,7 +166,7 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
                           width: 180,
                           height: 200,
                           image: harvestImage,
-                          onPictureHover: _selectStory,
+                          // onPictureHover: _selectStory,
                         ),
                       ),
                       Positioned(
@@ -162,7 +178,7 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
                           width: 160,
                           height: 130,
                           image: irisesImage,
-                          onPictureHover: _selectStory,
+                          // onPictureHover: _selectStory,
                         ),
                       ),
                       Positioned(
@@ -174,7 +190,7 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
                           width: 160,
                           height: 130,
                           image: cypressesImage,
-                          onPictureHover: _selectStory,
+                          // onPictureHover: _selectStory,
                         ),
                       ),
                     ],
@@ -200,6 +216,10 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  void toggleStory() {
+
   }
 
   void _selectStory(String key) {
