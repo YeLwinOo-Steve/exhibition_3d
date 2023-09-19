@@ -11,8 +11,10 @@ import 'package:flutter/material.dart';
 
 import 'constants/string_constants.dart';
 import 'domain_model/story.dart';
+import 'widgets/animated_transform.dart';
 import 'widgets/line_art.dart';
 import 'widgets/painting_shadow.dart';
+import 'widgets/story_board_animator.dart';
 
 class Plane extends StatefulWidget {
   const Plane({super.key});
@@ -21,15 +23,16 @@ class Plane extends StatefulWidget {
   State<Plane> createState() => _PlaneState();
 }
 
-class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
+class _PlaneState extends State<Plane> with TickerProviderStateMixin {
   late double _screenHeight;
   late double _screenWidth;
   late AnimationController animationController;
+  late AnimationController dzAnimationController;
   late Animation<double> planeYAnimation;
   Story? story;
 
   double dxVal = 55;
-  double dyVal = -50;
+  double dzVal = -50;
 
   ValueNotifier<double> dx = ValueNotifier<double>(55);
   ValueNotifier<double> dz = ValueNotifier<double>(-50);
@@ -46,13 +49,25 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
     irisesImage = const AssetImage(kaIrises);
     cypressesImage = const AssetImage(kaCypresses);
     animationController = AnimationController(
-        vsync: this, duration: const Duration(microseconds: 1000));
-    planeYAnimation = Tween<double>(begin: dyVal, end: .0).animate(
-      CurvedAnimation(
-        parent: animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
+        vsync: this, duration: const Duration(milliseconds: 2000))
+      ..addStatusListener(
+        animationStatusListener,
+      );
+    dzAnimationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1000))
+      ..addStatusListener(dzStatusListener);
+  }
+
+  void animationStatusListener(AnimationStatus status) {
+    if (status == AnimationStatus.dismissed) {
+      dzAnimationController.reverse();
+    }
+  }
+
+  void dzStatusListener(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      animationController.forward();
+    }
   }
 
   bool get isYAnimationCompleted =>
@@ -71,6 +86,7 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
     dx.dispose();
     dz.dispose();
     animationController.dispose();
+    dzAnimationController.dispose();
     super.dispose();
   }
 
@@ -100,16 +116,12 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
             builder: (context, x, y) {
               return MouseRegion(
                 onHover: isYAnimationDismissed ? _onMouseMove : null,
-                child: Transform(
-                  transform: Matrix4.identity()
-                    ..setEntry(3, 2, .001)
-                    ..rotateX(
-                      - dx.value * pi / 180,
-                    )
-                    ..rotateZ(
-                      -dz.value * pi / 180,
-                    ),
-                  alignment: Alignment.center,
+                child: AnimatedTransform(
+                  animation: dzAnimationController.view,
+                  initialDxVal: dxVal,
+                  initialDzVal: dzVal,
+                  dx: dx.value,
+                  dz: dz.value,
                   child: Stack(
                     children: [
                       SizedBox(
@@ -201,8 +213,8 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
           ),
           Align(
             alignment: Alignment.centerRight,
-            child: Visibility(
-              visible: story != null,
+            child: StoryBoardAnimator(
+              controller: animationController.view,
               child: Container(
                 width: _screenWidth * 0.3,
                 height: _screenHeight * 0.9,
@@ -219,7 +231,11 @@ class _PlaneState extends State<Plane> with SingleTickerProviderStateMixin {
   }
 
   void toggleStory() {
-
+    if (animationController.isDismissed) {
+      dzAnimationController.forward();
+    } else {
+      animationController.reverse();
+    }
   }
 
   void _selectStory(String key) {
