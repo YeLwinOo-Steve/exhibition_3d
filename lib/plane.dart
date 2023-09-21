@@ -6,6 +6,7 @@ import 'package:exhibition_3d/constants/size_constants.dart';
 import 'package:exhibition_3d/constants/value_constants.dart';
 import 'package:exhibition_3d/state/mouse_postion_builder.dart';
 import 'package:exhibition_3d/widgets/picture.dart';
+import 'package:exhibition_3d/widgets/story_board.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +34,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
 
   double dxVal = 55;
   double dzVal = -50;
+  bool isMouseEnabled = true;
 
   ValueNotifier<double> dx = ValueNotifier<double>(55);
   ValueNotifier<double> dz = ValueNotifier<double>(-50);
@@ -49,7 +51,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
     irisesImage = const AssetImage(kaIrises);
     cypressesImage = const AssetImage(kaCypresses);
     animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 2000))
+        vsync: this, duration: const Duration(milliseconds: 1000))
       ..addStatusListener(
         animationStatusListener,
       );
@@ -68,13 +70,23 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
     if (status == AnimationStatus.completed) {
       animationController.forward();
     }
+    if (status == AnimationStatus.dismissed && !isMouseEnabled) {
+      setState(() {
+        isMouseEnabled = true;
+      });
+    } else if(isMouseEnabled){
+      setState(() {
+        isMouseEnabled = false;
+      });
+    }
   }
 
-  bool get isYAnimationCompleted =>
+  bool get isAnimationCompleted =>
       animationController.status == AnimationStatus.completed;
-  bool get isYAnimationDismissed =>
+  bool get isAnimationDismissed =>
       animationController.status == AnimationStatus.dismissed;
-
+  bool get isDzAnimationControllerDismissed =>
+      dzAnimationController.status == AnimationStatus.dismissed;
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -99,8 +111,8 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
 
   void _onMouseMove(PointerEvent event) {
     Offset position = event.position;
-    dz.value = ((position.dx / _screenWidth) * 10) - 50;
-    dx.value = 55.0 - 10.0 * (position.dy / _screenHeight);
+    dz.value = ((position.dx / _screenWidth) * 5) - 50;
+    dx.value = 55.0 - 5.0 * (position.dy / _screenHeight);
   }
 
   @override
@@ -115,7 +127,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
             y: dz,
             builder: (context, x, y) {
               return MouseRegion(
-                onHover: isYAnimationDismissed ? _onMouseMove : null,
+                onHover: isMouseEnabled ? _onMouseMove : (_) {},
                 child: AnimatedTransform(
                   animation: dzAnimationController.view,
                   initialDxVal: dxVal,
@@ -215,13 +227,10 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
             alignment: Alignment.centerRight,
             child: StoryBoardAnimator(
               controller: animationController.view,
-              child: Container(
+              child: StoryBoard(
                 width: _screenWidth * 0.3,
-                height: _screenHeight * 0.9,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                ),
-                color: blackColor,
+                height: double.infinity,
+                onClose: toggleStory,
               ),
             ),
           ),
