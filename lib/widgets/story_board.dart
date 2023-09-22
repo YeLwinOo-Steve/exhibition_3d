@@ -33,9 +33,16 @@ class StoryBoard extends StatelessWidget {
               ),
             ),
           ),
-          Text('My Story'),
+          const Text(
+            'My Story',
+            style: TextStyle(
+              color: planeColor,
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
           verticalSpaceLarge,
-          Text("Ya know, I'm a god!"),
+          Text("Ya know, Flutter sucks!"),
         ],
       ),
     );
