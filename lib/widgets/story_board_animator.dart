@@ -10,7 +10,7 @@ class StoryBoardAnimator extends StatelessWidget {
   });
 
   Animation<Offset> get rightSlideAnimation => Tween<Offset>(
-        begin: const Offset(1, 0),
+        begin: const Offset(1.15, 0),
         end: const Offset(0, 0),
       ).animate(
         CurvedAnimation(

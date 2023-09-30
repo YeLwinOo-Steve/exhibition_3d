@@ -35,7 +35,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
   double dxVal = 55;
   double dzVal = -50;
   bool isMouseEnabled = true;
-
+  bool isStoryOpen = false;
   ValueNotifier<double> dx = ValueNotifier<double>(55);
   ValueNotifier<double> dz = ValueNotifier<double>(-50);
   late AssetImage blossomImage;
@@ -63,7 +63,11 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
   void animationStatusListener(AnimationStatus status) {
     if (status == AnimationStatus.dismissed) {
       dzAnimationController.reverse();
+      isStoryOpen = false;
+    } else {
+      isStoryOpen = true;
     }
+    setState(() {});
   }
 
   void dzStatusListener(AnimationStatus status) {
@@ -74,7 +78,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
       setState(() {
         isMouseEnabled = true;
       });
-    } else if(isMouseEnabled){
+    } else if (isMouseEnabled) {
       setState(() {
         isMouseEnabled = false;
       });
@@ -228,6 +232,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
             child: StoryBoardAnimator(
               controller: animationController.view,
               child: StoryBoard(
+                isStoryOpen: isStoryOpen,
                 width: _screenWidth * 0.3,
                 height: double.infinity,
                 onClose: toggleStory,
