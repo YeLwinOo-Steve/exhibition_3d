@@ -14,7 +14,7 @@ class WavePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size s) {
-    Size size = Size(50, s.height);
+    Size size = Size(10, s.height);
     final paint = Paint()
       ..color = color // Wave color
       ..style = PaintingStyle.fill;

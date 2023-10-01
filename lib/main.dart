@@ -1,6 +1,5 @@
 import 'package:exhibition_3d/constants/color_constants.dart';
 import 'package:exhibition_3d/plane.dart';
-import 'package:exhibition_3d/widgets/wave_painter.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +19,6 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: planeColor,
         useMaterial3: true,
       ),
-      // home: Scaffold(body: Center(child: Gooey())),
       home: const Plane(),
     );
   }

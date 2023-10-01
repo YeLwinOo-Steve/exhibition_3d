@@ -2,12 +2,14 @@ import 'package:exhibition_3d/constants/color_constants.dart';
 import 'package:exhibition_3d/constants/size_constants.dart';
 import 'package:flutter/material.dart';
 
+import 'dotted_line.dart';
 import 'wave_painter.dart';
 
 class StoryBoard extends StatefulWidget {
   const StoryBoard({
     super.key,
     this.isStoryOpen = false,
+    required this.animation,
     required this.width,
     required this.height,
     required this.onClose,
@@ -16,6 +18,7 @@ class StoryBoard extends StatefulWidget {
   final double width;
   final double height;
   final VoidCallback onClose;
+  final Animation<double> animation;
 
   @override
   State<StoryBoard> createState() => _StoryBoardState();
@@ -68,9 +71,9 @@ class _StoryBoardState extends State<StoryBoard>
       child: Container(
         width: widget.width,
         padding: const EdgeInsets.only(
-          top: 50.0,
-          right: 50.0,
-          bottom: 50.0,
+          top: 20.0,
+          right: 20.0,
+          bottom: 20.0,
         ),
         decoration: const BoxDecoration(
           color: lineColor,
@@ -97,6 +100,7 @@ class _StoryBoardState extends State<StoryBoard>
             ),
             verticalSpaceLarge,
             const Text("Ya know, Flutter sucks!"),
+            const AnimatedDottedLine(),
           ],
         ),
       ),

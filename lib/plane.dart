@@ -232,6 +232,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
             child: StoryBoardAnimator(
               controller: animationController.view,
               child: StoryBoard(
+                animation: animationController.view,
                 isStoryOpen: isStoryOpen,
                 width: _screenWidth * 0.3,
                 height: double.infinity,
@@ -250,20 +251,5 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
     } else {
       animationController.reverse();
     }
-  }
-
-  void _selectStory(String key) {
-    if (key.contains(picture1)) {
-      story = stories[picture1];
-    } else if (key.contains(picture2)) {
-      story = stories[picture1];
-    } else if (key.contains(picture3)) {
-      story = stories[picture1];
-    } else if (key.contains(picture4)) {
-      story = stories[picture1];
-    } else {
-      story = null;
-    }
-    setState(() {});
   }
 }
