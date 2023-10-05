@@ -1,46 +1,23 @@
 import 'package:flutter/material.dart';
 
-class AnimatedDottedLine extends StatefulWidget {
-  const AnimatedDottedLine({super.key});
-
-  @override
-  _AnimatedDottedLineState createState() => _AnimatedDottedLineState();
-}
-
-class _AnimatedDottedLineState extends State<AnimatedDottedLine>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2), // Adjust the duration as needed
-    );
-
-    _animation = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-    // Start the animation
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class AnimatedDottedLine extends StatelessWidget {
+  const AnimatedDottedLine({
+    super.key,
+    required this.dottedLineAnimation,
+  });
+  final Animation<double> dottedLineAnimation;
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: DottedLinePainter(animation: _animation),
-    );
+    return AnimatedBuilder(
+        animation: dottedLineAnimation,
+        builder: (controller, child) {
+          return CustomPaint(
+            size: Size(500,10),
+            painter: DottedLinePainter(
+              animation: dottedLineAnimation,
+            ),
+          );
+        });
   }
 }
 
@@ -55,7 +32,6 @@ class DottedLinePainter extends CustomPainter {
       ..color = Colors.black
       ..strokeWidth = 1
       ..strokeCap = StrokeCap.round;
-
     const double dotSpacing = 10.0; // dot width = 4, spacing = 6
     final double totalWidth = size.width;
     final int numDots = (totalWidth / dotSpacing).ceil();

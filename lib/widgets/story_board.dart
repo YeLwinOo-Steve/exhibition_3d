@@ -15,8 +15,7 @@ class StoryBoard extends StatefulWidget {
     required this.onClose,
   });
   final bool isStoryOpen;
-  final double width;
-  final double height;
+  final double width, height;
   final VoidCallback onClose;
   final Animation<double> animation;
 
@@ -25,31 +24,53 @@ class StoryBoard extends StatefulWidget {
 }
 
 class _StoryBoardState extends State<StoryBoard>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
+    with TickerProviderStateMixin {
+  late AnimationController _storyBoardController;
+  late AnimationController _dottedLineController;
+  late Animation<double> _dottedLineAnimation;
   final double amplitude = 8;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _storyBoardController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
     );
+    _storyBoardController.addStatusListener(controllerListener);
+    _dottedLineController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+
+    _dottedLineAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(
+        parent: _dottedLineController, curve: Curves.easeInOut));
+  }
+
+  void controllerListener(AnimationStatus status) {
+    if (status == AnimationStatus.forward) {
+      // Start the animation
+      _dottedLineController.forward();
+    }else if(status == AnimationStatus.reverse){
+      _dottedLineController.reverse();
+    }
   }
 
   void waveListener() {
     if (widget.isStoryOpen) {
-      _controller.repeat();
+      _storyBoardController.repeat();
     } else {
-      _controller.reset();
+      _storyBoardController.reset();
     }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _storyBoardController.dispose();
+    _dottedLineController.dispose();
     super.dispose();
   }
 
@@ -57,11 +78,11 @@ class _StoryBoardState extends State<StoryBoard>
   Widget build(BuildContext context) {
     waveListener();
     return AnimatedBuilder(
-      animation: _controller,
+      animation: _storyBoardController,
       builder: (context, child) {
         return CustomPaint(
           painter: WavePainter(
-            _controller.value,
+            _storyBoardController.value,
             amplitude,
             lineColor,
           ),
@@ -91,7 +112,7 @@ class _StoryBoardState extends State<StoryBoard>
               ),
             ),
             const Text(
-              'My Story',
+              "Van Gogh's Merciless Life",
               style: TextStyle(
                 color: planeColor,
                 fontSize: 28,
@@ -100,7 +121,10 @@ class _StoryBoardState extends State<StoryBoard>
             ),
             verticalSpaceLarge,
             const Text("Ya know, Flutter sucks!"),
-            const AnimatedDottedLine(),
+            verticalSpaceExtreme,
+            AnimatedDottedLine(
+              dottedLineAnimation: _dottedLineAnimation,
+            ),
           ],
         ),
       ),
