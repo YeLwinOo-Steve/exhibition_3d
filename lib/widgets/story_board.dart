@@ -1,5 +1,6 @@
 import 'package:exhibition_3d/constants/color_constants.dart';
 import 'package:exhibition_3d/constants/size_constants.dart';
+import 'package:exhibition_3d/constants/value_constants.dart';
 import 'package:flutter/material.dart';
 
 import 'dotted_line.dart';
@@ -23,8 +24,7 @@ class StoryBoard extends StatefulWidget {
   State<StoryBoard> createState() => _StoryBoardState();
 }
 
-class _StoryBoardState extends State<StoryBoard>
-    with TickerProviderStateMixin {
+class _StoryBoardState extends State<StoryBoard> with TickerProviderStateMixin {
   late AnimationController _storyBoardController;
   late AnimationController _dottedLineController;
   late Animation<double> _dottedLineAnimation;
@@ -54,7 +54,7 @@ class _StoryBoardState extends State<StoryBoard>
     if (status == AnimationStatus.forward) {
       // Start the animation
       _dottedLineController.forward();
-    }else if(status == AnimationStatus.reverse){
+    } else if (status == AnimationStatus.reverse) {
       _dottedLineController.reverse();
     }
   }
@@ -107,24 +107,64 @@ class _StoryBoardState extends State<StoryBoard>
                 onPressed: widget.onClose,
                 icon: const Icon(
                   Icons.close,
-                  color: planeColor,
                 ),
               ),
             ),
             const Text(
-              "Van Gogh's Merciless Life",
+              "Pro Tips",
               style: TextStyle(
-                color: planeColor,
-                fontSize: 28,
+                fontSize: 24,
                 fontWeight: FontWeight.w900,
               ),
             ),
             verticalSpaceLarge,
-            const Text("Ya know, Flutter sucks!"),
-            verticalSpaceExtreme,
             AnimatedDottedLine(
               dottedLineAnimation: _dottedLineAnimation,
+              width: widget.width * 0.5,
+              height: 8,
             ),
+            verticalSpaceLarge,
+            TipWidget(
+              vPadding: widget.width * 0.1,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TipWidget extends StatelessWidget {
+  const TipWidget({
+    super.key,
+    required this.vPadding,
+  });
+  final double vPadding;
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: vPadding,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RichText(
+              text: const TextSpan(
+                  text: "[Continuous Learning]",
+                  style: kTipTitleTextStyle,
+                  children: [
+                    TextSpan(
+                      text:
+                          "\tStay updated with the latest technologies and languages. Dedicate time each week to reading documentation, tutorials, or taking online courses to expand your knowledge.",
+                      style: kTipBodyTextStyle,
+                    )
+                  ]),
+            ),
+            verticalSpaceMedium,
           ],
         ),
       ),

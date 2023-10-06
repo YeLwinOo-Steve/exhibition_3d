@@ -4,7 +4,11 @@ class AnimatedDottedLine extends StatelessWidget {
   const AnimatedDottedLine({
     super.key,
     required this.dottedLineAnimation,
+    required this.width,
+    required this.height,
   });
+  final double width;
+  final double height;
   final Animation<double> dottedLineAnimation;
   @override
   Widget build(BuildContext context) {
@@ -12,7 +16,10 @@ class AnimatedDottedLine extends StatelessWidget {
         animation: dottedLineAnimation,
         builder: (controller, child) {
           return CustomPaint(
-            size: Size(500,10),
+            size: Size(
+              width,
+              height,
+            ),
             painter: DottedLinePainter(
               animation: dottedLineAnimation,
             ),
@@ -30,7 +37,7 @@ class DottedLinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
       ..color = Colors.black
-      ..strokeWidth = 1
+      ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
     const double dotSpacing = 10.0; // dot width = 4, spacing = 6
     final double totalWidth = size.width;
@@ -43,7 +50,7 @@ class DottedLinePainter extends CustomPainter {
       if (dotPosition <= animation.value * totalWidth) {
         canvas.drawLine(
           Offset(dotPosition, 0),
-          Offset(dotPosition + 4, 0),
+          Offset(dotPosition + 3, 0),
           paint,
         );
       }
