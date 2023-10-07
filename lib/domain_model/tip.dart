@@ -1,7 +1,7 @@
-class Story {
+class Tip {
   final String title;
   final String description;
-  Story({
+  Tip({
     required this.title,
     required this.description,
   });

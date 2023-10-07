@@ -9,9 +9,10 @@ import 'package:exhibition_3d/widgets/picture.dart';
 import 'package:exhibition_3d/widgets/story_board.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'constants/string_constants.dart';
-import 'domain_model/story.dart';
+import 'domain_model/tip.dart';
 import 'widgets/animated_transform.dart';
 import 'widgets/line_art.dart';
 import 'widgets/painting_shadow.dart';
@@ -30,7 +31,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
   late AnimationController animationController;
   late AnimationController dzAnimationController;
   late Animation<double> planeYAnimation;
-  Story? story;
+  Tip? story;
 
   double dxVal = 55;
   double dzVal = -50;
@@ -165,10 +166,33 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
                                 textAlign: TextAlign.center,
                               ),
                             ),
-                            verticalSpaceSmall,
-                            FilledButton(
+                            verticalSpaceLarge,
+                            TextButton(
                               onPressed: toggleStory,
-                              child: const Text(ksExplore),
+                              style: TextButton.styleFrom(
+                                shape: BeveledRectangleBorder(
+                                  side: const BorderSide(
+                                    width: 0.4,
+                                    color: lineColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Explore Pro Tips".toUpperCase(),
+                                    style: const TextStyle(
+                                      letterSpacing: 3.0,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w200,
+                                    ),
+                                  ),
+                                  horizontalSpaceSmall,
+                                  Icon(Icons.arrow_right_alt),
+                                ],
+                              ),
                             ),
                           ],
                         ),

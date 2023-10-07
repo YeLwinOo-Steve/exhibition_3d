@@ -37,7 +37,7 @@ class DottedLinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
       ..color = Colors.black
-      ..strokeWidth = 3
+      ..strokeWidth = 1
       ..strokeCap = StrokeCap.round;
     const double dotSpacing = 10.0; // dot width = 4, spacing = 6
     final double totalWidth = size.width;
