@@ -153,7 +153,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
+                            Text(
                               ksTitle,
                               style: kTitleTextStyle,
                             ),
@@ -170,6 +170,8 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
                             TextButton(
                               onPressed: toggleStory,
                               style: TextButton.styleFrom(
+                                backgroundColor: lineColor,
+                                foregroundColor: planeColor,
                                 shape: BeveledRectangleBorder(
                                   side: const BorderSide(
                                     width: 0.4,
@@ -182,7 +184,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    "Explore Pro Tips".toUpperCase(),
+                                    ksProTips.toUpperCase(),
                                     style: const TextStyle(
                                       letterSpacing: 3.0,
                                       fontSize: 12,
@@ -190,7 +192,7 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   horizontalSpaceSmall,
-                                  Icon(Icons.arrow_right_alt),
+                                  const Icon(Icons.arrow_right_alt),
                                 ],
                               ),
                             ),

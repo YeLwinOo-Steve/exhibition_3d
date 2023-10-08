@@ -27,7 +27,7 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="assets/images/the-harvest.jpg"/>
 
   <title>exhibition_3d</title>
   <link rel="manifest" href="manifest.json">
@@ -38,20 +38,91 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+  <style>
+    @keyframes configure-xclockwise {
+      0% {
+        transform: rotate(45deg);
+      }
+      25% {
+        transform: rotate(-45deg);
+      }
+      50% {
+        transform: rotate(-135deg);
+      }
+      75% {
+        transform: rotate(-225deg);
+      }
+      100% {
+        transform: rotate(-315deg);
+      }
+    }
+
+        .configure-border-1 {
+          width: 80px;
+          height: 80px;
+          padding: 3px;
+          left: -115px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: rgb(63,249,220);
+          transform: rotate(45deg);
+          animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
+        }
+        html{
+          background:#DAEBEB;
+        }
+        body{
+          display:flex;
+          align-items:center;
+          justify-content: center;
+        }
+      #spinner-box{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        text-align: center;
+        transform: translateX(-50%) translateY(-50%);
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+      }
+    #loading{
+      text-align: center;
+    }
+    .configure-border {
+      margin: auto; display: block;
+      display: flex;
+          justify-content: center;
+          align-items: center;
+    }
+  </style>
 </head>
 <body>
+<div id="spinner-box">
+  <div class="configure-border">
+    <div class="configure-border-1">
+      <img src="../assets/images/the-starry-night.jpg" style="width: 80px;height: 80px;" alt="The starry night">
+    </div>
+  </div>
+  <p id="loading"></p>
+</div>
   <script>
     window.addEventListener('load', function(ev) {
+      var loading = document.querySelector('#loading');
+        loading.textContent = "Cleaning Pictures...";
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
+        onEntrypointLoaded: async function(engineInitializer) {
+            loading.textContent = "Placing Pictures...";
+            let appRunner = await engineInitializer.initializeEngine();
+            const element = document.getElementById("spinner-box");
+
+            loading.textContent = "Opening Exhibition...";
+            await appRunner.runApp();
+          },
       });
     });
   </script>
