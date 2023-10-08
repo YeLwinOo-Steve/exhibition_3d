@@ -47,7 +47,7 @@ class _StoryBoardState extends State<StoryBoard> with TickerProviderStateMixin {
     );
     _tipController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 6),
     );
     _dottedLineAnimation = Tween<double>(
       begin: 0,
@@ -108,6 +108,7 @@ class _StoryBoardState extends State<StoryBoard> with TickerProviderStateMixin {
           color: lineColor,
         ),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -120,11 +121,12 @@ class _StoryBoardState extends State<StoryBoard> with TickerProviderStateMixin {
                   ),
                 ),
               ),
-              const Text(
-                "Better Programmer Tips",
+              Text(
+                ksBetterProgrammerTip,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w300,
+                  color: indigoColor,
                 ),
               ),
               verticalSpaceMedium,

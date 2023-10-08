@@ -4,6 +4,8 @@ const String ksTitle = "A wise man said";
 const String ksQuote =
     "❝ You either die a Hero or suffer long enough to see yourself become a Software Engineer ❞";
 const String ksExplore = "Explore Tips to be a Better Programmer";
+const String ksBetterProgrammerTip = "Better Programmer Tips";
+const String ksProTips = "Explore Pro Tips";
 
 const String picture1 = "picture_1";
 const String picture2 = "picture_2";
