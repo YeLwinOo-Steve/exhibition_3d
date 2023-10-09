@@ -33,7 +33,7 @@ class AnimatedTransform extends AnimatedWidget {
 
   Animation<double> get curveAnimation => CurvedAnimation(
         parent: animation,
-        curve: Curves.fastEaseInToSlowEaseOut,
+        curve: Curves.linearToEaseOut,
       );
   @override
   Widget build(BuildContext context) {

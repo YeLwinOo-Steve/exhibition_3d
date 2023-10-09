@@ -52,8 +52,11 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
     irisesImage = const AssetImage(kaIrises);
     cypressesImage = const AssetImage(kaCypresses);
     animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1000))
-      ..addStatusListener(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 1000,
+      ),
+    )..addStatusListener(
         animationStatusListener,
       );
     dzAnimationController = AnimationController(
@@ -114,8 +117,9 @@ class _PlaneState extends State<Plane> with TickerProviderStateMixin {
     precacheImage(cypressesImage, context);
   }
 
-  void _onMouseMove(PointerEvent event) {
+  void _onMouseMove(PointerEvent event) async {
     Offset position = event.position;
+    await Future.delayed(const Duration(milliseconds: 50));
     dz.value = ((position.dx / _screenWidth) * 5) - 50;
     dx.value = 55.0 - 5.0 * (position.dy / _screenHeight);
   }
