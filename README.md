@@ -1,56 +1,31 @@
 # exhibition_3d
 
-3D image exhibition
+🔗[https://exhibition-3d.vercel.app](https://exhibition-3d.vercel.app/)
 
-# Sneak Peek
+![exhibition_3d.png](assets/preview/exhibition_3d.png)
 
+### 🖼️ 3D image exhibition
 
+    I dig into a `3D` world using only Flutter built-in widgets. It's pretty cool and fun although there are some flaws like interacting with 3D objects.
 
-## Table of contents (optional)
+### 🧮 Why `3D` with `2D` Widgets?
 
-- Requirements
-- Recommended modules
-- Installation
-- Configuration
-- Troubleshooting
-- FAQ
-- Maintainers
+- It's a lot heavy to load and render `3D models` in Flutter and frame rates may drop. So, it might be more performant to use built-in widgets to represent simple 3D models ( although it requires a lot of calculations )
+- I wanna test the limitations and drawbacks of Flutter's built-in widgets in `3D` space
+- The main reason is because I'm a bit curious about it 😏
 
+### 🕸️ Where is the reference? 
+My reference website is [https://ourheritage.novonordisk.com/](https://ourheritage.novonordisk.com/). I really love that although it makes my computer lagged while loading 🥲.
 
-## Requirements (required)
+### ⚒️ Tools
+    I only use Flutter web and svg images. Nothing more.
 
-This module requires the following modules:
-- [Bad judgement](https://www.drupal.org/project/bad_judgement)
+### 💭 Final Thoughts
+    Just use `Rive`. That's the best option.
+### 👀Sneak Peek
 
-OR
+    Here's my website preview. 
 
-This module requires no modules outside of Drupal core.
+![exhibition_3d_walthrough.gif](assets%2Fpreview%2Fexhibition_3d_walthrough.gif)
 
-
-## Recommended modules (optional)
-
-
-## Installation (required, unless a separate INSTALL.md is provided)
-
-Install as you would normally install a contributed Drupal module. For further information, see [Installing Drupal Modules](https://www.drupal.org/docs/extending-drupal/installing-drupal-modules).
-
-
-## Configuration (required)
-
-1. Enable the module at Administration > Extend.
-1. Profit.
-
-
-## Troubleshooting (optional)
-
-
-## FAQ (optional)
-
-**Q: How do I write a module README?**
-
-**A:** Follow this template. It's fun and easy!
-
-
-## Maintainers (optional)
-
-- Dries Buytaert - [dries](https://www.drupal.org/u/dries)
+**🌟 Don't forget to give it a really big Star and follow me coz it pushes me to write more open-source projects. Otherwise, I'm as lazy as a sloth.🦥**
